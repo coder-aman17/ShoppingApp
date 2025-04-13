@@ -1,5 +1,7 @@
 package com.example.userapp.domain.models
 
+import androidx.compose.runtime.mutableStateMapOf
+
 data class UserData (
     val firstName: String ="",
     val lastName : String = "",
@@ -10,8 +12,8 @@ data class UserData (
     val profileImage : String = "",
 
     ){
-    fun toMap(): MutableMap<String, Any> {
-        val map = mutableMapOf<String, Any>()
+    fun toMap(): Map<String, Any> {
+        val map = mutableStateMapOf<String, Any>()
         map["firstName"] = firstName
         map["lastName"] = lastName
         map["email"] = email
@@ -26,7 +28,7 @@ data class UserData (
 }
 
 data class UserDataParents(
-    val nodeId: String= "",
-    val userData : UserData = UserData()
+    val nodeId: String = "",
+    val userData: UserData? = UserData()
 
 )

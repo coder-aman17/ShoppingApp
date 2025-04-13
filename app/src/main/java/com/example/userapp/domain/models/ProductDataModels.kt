@@ -14,7 +14,7 @@ data class ProductDataModels(
     val date : Long = System.currentTimeMillis(),
     val createdBy : String = "",
     val availableUnites : Int = 0,
-    val productId : String = "",
+    var productId : String = "",
 
 
     )
