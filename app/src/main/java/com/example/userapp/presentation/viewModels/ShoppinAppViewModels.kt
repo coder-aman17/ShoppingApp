@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.userapp.common.HomeScreenState
+import com.example.userapp.common.ResultState
+import com.example.userapp.domain.models.CategoryDataModels
 import com.example.userapp.domain.models.ProductDataModels
 import com.example.userapp.domain.models.UserDataParents
 import com.example.userapp.domain.useCases.AddToCartUseCase
@@ -35,7 +37,7 @@ class UserAppViewModel @Inject constructor(
     private val getCartState: GetCartState,
     private val getCategoriesInLimitedUseCase: GetCategoryLimitUseCase,
     private val getCheckOutState: GetCheckOutState,
-    private val getSpecificCategoryItemsState: GetSpecificCategoryItemsState,
+    private val getSpecificCategoryItemsState: GetSpecificCategoryItems,
     private val getUserUseCase: GetUserUseCase,
     private val loginUserUseCase: LoginUserUseCase,
     private val updateUserDataUseCase: UpdateUserDataUseCase,
@@ -92,6 +94,31 @@ class UserAppViewModel @Inject constructor(
     val homeScreenState = _homeScreenState.asStateFlow()
 
 
+    fun getSpecificCategoryItems(categoryName : String){
+        viewModelScope.launch {
+            getSpecificCategoryItemsState.getSpecificCategoryItems(categoryName).collect{
+                when(it){
+                    is ResultState.Error->{
+                        _getSpecificCategoryItemsScreenState.value = _getSpecificCategoryItemsScreenState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+                    }
+                    is ResultState.Loading->{
+                        _getSpecificCategoryItemsScreenState.value = _getSpecificCategoryItemsScreenState.value.copy(
+                            isLoading = true
+                        )
+                    }
+                    is ResultState.Success->{
+                        _getSpecificCategoryItemsScreenState.value = _getSpecificCategoryItemsScreenState.value.copy(
+                            isLoading = false,
+                            userData = it.data
+                        )
+                }
+            }
+        }
+
+    }
 
 
 
@@ -256,7 +283,7 @@ data class GetCheckOutState(
 data class GetSpecificCategoryItemsState(
     val isLoading : Boolean = false,
     val errorMessage : String?=null,
-    val userData : List<ProductDataModels?> =emptyList()
+    val userData : List<CategoryDataModels?> =emptyList()
 
 )
 

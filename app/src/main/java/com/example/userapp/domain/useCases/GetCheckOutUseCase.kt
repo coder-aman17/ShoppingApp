@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetCheckOutUseCase@Inject constructor(private val repo: Repo)  {
-    fun getCheckOutUseCase(productId : String) : Flow<ResultState<List<ProductDataModels>>> {
+    fun getCheckOutUseCase(productId : String) : Flow<ResultState<ProductDataModels>> {
 
         return repo.getCheckOut(productId)
     }
