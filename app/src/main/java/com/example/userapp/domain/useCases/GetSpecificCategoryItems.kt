@@ -9,7 +9,7 @@ import com.example.userapp.domain.repo.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetSpecificCategoryItems@Inject constructor(private val repo: Repo)  {
+class GetSpecificCategoryItemsUseCase@Inject constructor(private val repo: Repo)  {
     fun getSpecificCategoryItems(categoryName :String) : Flow<ResultState<List<ProductDataModels>>> {
 
         return repo.getSpecificCategoryItems(categoryName)
